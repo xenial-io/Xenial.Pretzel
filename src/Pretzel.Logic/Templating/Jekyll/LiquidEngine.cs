@@ -119,15 +119,7 @@ namespace Pretzel.Logic.Templating.Jekyll
         public override void Initialize()
         {
             TemplateContext.GlobalFilters.AddFilter(nameof(XmlEscapeFilter.xml_escape), XmlEscapeFilter.xml_escape);
-            //TODO: custom filters
-            //TemplateContext.GlobalFilters.AddFilter(nameof(XmlEscapeFilter.date_to_xmlschema), XmlEscapeFilter.date_to_xmlschema);
-            //Template.RegisterFilter(typeof(DateToStringFilter));
-            //Template.RegisterFilter(typeof(DateToLongStringFilter));
-            //Template.RegisterFilter(typeof(DateToRfc822FormatFilter));
-            //Template.RegisterFilter(typeof(CgiEscapeFilter));
-            //Template.RegisterFilter(typeof(UriEscapeFilter));
-            //Template.RegisterFilter(typeof(NumberOfWordsFilter));
-            //Template.RegisterTag<HighlightBlock>("highlight");
+            TemplateContext.GlobalFilters.AddFilter(nameof(XmlEscapeFilter.date_to_xmlschema), XmlEscapeFilter.date_to_xmlschema);
         }
     }
 
