@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Pretzel.Logic.Liquid
 {
@@ -7,7 +7,7 @@ namespace Pretzel.Logic.Liquid
         public static string date_to_rfc822(DateTime input)
         {
             var rfc822 = input.ToString("r");
-            var tz = TimeZone.CurrentTimeZone;
+            var tz = TimeZoneInfo.Local;
             var offset = tz.GetUtcOffset(input).ToString();
 
             // if local time is behind utc time, offset should start with "-".
