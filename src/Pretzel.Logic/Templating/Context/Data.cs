@@ -31,7 +31,7 @@ namespace Pretzel.Logic.Templating.Context
         }
 
         public object this[string key]
-            { get => values[key]; set => values[key] = value; }
+        { get => values[key]; set => values[key] = value; }
 
         public ICollection<string> Keys => values.Keys;
 
@@ -88,6 +88,34 @@ namespace Pretzel.Logic.Templating.Context
 
         public bool TryGetValue(string key, out object value)
         {
+            if (key.Contains("/"))
+            {
+                var splittedKeys = key.Split(new []{ '/' }, StringSplitOptions.RemoveEmptyEntries);
+
+                var storage = values;
+                object retVal = null;
+
+                foreach (var splittedKey in splittedKeys)
+                {
+                    if (storage.TryGetValue(splittedKey, out var s))
+                    {
+                        if (s is IDictionary<string, object> subStorage)
+                        {
+                            storage = subStorage;
+                            retVal = storage;
+                        }
+                        else
+                        {
+                            retVal = s;
+                        }
+                    }
+                }
+                if(retVal is not null)
+                {
+                    value = retVal;
+                    return true;
+                }
+            }
             return values.TryGetValue(key, out value);
         }
 

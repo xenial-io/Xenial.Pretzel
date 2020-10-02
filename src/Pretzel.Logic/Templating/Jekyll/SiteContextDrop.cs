@@ -27,6 +27,11 @@ namespace Pretzel.Logic.Templating.Jekyll.Liquid
             get { return context.Title; }
         }
 
+        public IDictionary<string, object> Data
+        {
+            get { return context.Data; }
+        }
+
         public SiteContextDrop(SiteContext context)
         {
             this.context = context;

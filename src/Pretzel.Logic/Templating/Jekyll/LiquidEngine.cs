@@ -65,6 +65,7 @@ namespace Pretzel.Logic.Templating.Jekyll
         private TemplateContext CreatePageData(PageContext pageContext)
         {
             var context = new TemplateContext();
+            context.MemberAccessStrategy.Register(typeof(SiteContext));
             context.MemberAccessStrategy.Register(typeof(Page));
             context.MemberAccessStrategy.Register(typeof(PageData));
             context.MemberAccessStrategy.Register(typeof(Paginator));
@@ -87,6 +88,7 @@ namespace Pretzel.Logic.Templating.Jekyll
 
             y.Add("previous", pageContext.Previous);
             y.Add("next", pageContext.Next);
+            y.Add("data", contextDrop.Data);
 
             var x = new PageData
             {
