@@ -1,23 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30524.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pretzel", "Pretzel\Pretzel.csproj", "{198E7970-CBF7-4BD8-8E36-4E07BB29C3AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pretzel", "Pretzel\Pretzel.csproj", "{198E7970-CBF7-4BD8-8E36-4E07BB29C3AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pretzel.Logic", "Pretzel.Logic\Pretzel.Logic.csproj", "{F2E6664D-75AC-4830-8A55-E572027DF710}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pretzel.Logic", "Pretzel.Logic\Pretzel.Logic.csproj", "{F2E6664D-75AC-4830-8A55-E572027DF710}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pretzel.Tests", "Pretzel.Tests\Pretzel.Tests.csproj", "{B90C3F82-7B38-49E9-80D5-F9752F7B2C67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pretzel.Tests", "Pretzel.Tests\Pretzel.Tests.csproj", "{B90C3F82-7B38-49E9-80D5-F9752F7B2C67}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5F558191-21D9-40C6-9173-C416DCEFDA21}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
 		..\appveyor.yml = ..\appveyor.yml
 		..\CONTRIBUTING.md = ..\CONTRIBUTING.md
+		..\global.json = ..\global.json
 		..\README.md = ..\README.md
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pretzel.ScriptCs", "Pretzel.ScriptCs\Pretzel.ScriptCs.csproj", "{23308D48-7EBF-4082-BFDA-B62C9404E9C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,12 +36,11 @@ Global
 		{B90C3F82-7B38-49E9-80D5-F9752F7B2C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B90C3F82-7B38-49E9-80D5-F9752F7B2C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B90C3F82-7B38-49E9-80D5-F9752F7B2C67}.Release|Any CPU.Build.0 = Release|Any CPU
-		{23308D48-7EBF-4082-BFDA-B62C9404E9C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{23308D48-7EBF-4082-BFDA-B62C9404E9C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{23308D48-7EBF-4082-BFDA-B62C9404E9C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{23308D48-7EBF-4082-BFDA-B62C9404E9C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8ADC1A27-65F8-4402-BA1B-864BA00F054E}
 	EndGlobalSection
 EndGlobal

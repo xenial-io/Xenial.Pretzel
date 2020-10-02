@@ -15,7 +15,7 @@
     <PackageLicenseUrl>https://github.com/Code52/pretzel/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/code52/pretzel</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/Code52/pretzel/releases</PackageReleaseNotes>
-    <PackageTags>Pretzel, Jekyll, HTML, Markdown, Liquid, Razor, static</PackageTags>
+    <PackageTags>Pretzel, Jekyll, HTML, Markdown, Liquid, static</PackageTags>
     <DebugType>Full</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
@@ -23,24 +23,21 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CommonMark.NET" Version="0.15.1" />
-    <PackageReference Include="CsvHelper" Version="12.1.2" />
+    <PackageReference Include="CsvHelper" Version="15.0.6" />
     <PackageReference Include="dotless.Core" Version="1.6.7" />
-    <PackageReference Include="DotLiquid" Version="2.0.314" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.12" />
+    <PackageReference Include="DotLiquid" Version="2.0.361" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.24" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.Extensions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.Extensions" Version="2.2.0" />
-    <PackageReference Include="NUglify" Version="1.5.13" />
-    <PackageReference Include="RazorEngine.NetCore.Pretzel" Version="2.2.6" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.16.0.8981">
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.8" />
+    <PackageReference Include="NUglify" Version="1.9.6" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.13.1.21947">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="System.CommandLine.Experimental" Version="0.3.0-alpha.19405.1" />
-    <PackageReference Include="System.IO.Abstractions" Version="6.0.32" />
-    <PackageReference Include="YamlDotNet" Version="6.1.2" />
-    <PackageReference Include="System.Composition" Version="1.2.0" />
+    <PackageReference Include="System.IO.Abstractions" Version="12.2.1" />
+    <PackageReference Include="YamlDotNet" Version="8.1.2" />
+    <PackageReference Include="System.Composition" Version="1.4.1" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
     <Reference Include="System.Data.DataSetExtensions" />
@@ -57,26 +54,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Liquid.resx</DependentUpon>
     </Compile>
-    <Compile Update="Properties\Razor.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Razor.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Properties\RazorAzure.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RazorAzure.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Properties\RazorCsProject.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RazorCsProject.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Properties\RazorWiki.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RazorWiki.resx</DependentUpon>
-    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -84,20 +61,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Update="Properties\Razor.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
-      <LastGenOutput>Razor.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="Properties\Liquid.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Liquid.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Properties\RazorWiki.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>RazorWiki.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

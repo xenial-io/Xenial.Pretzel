@@ -5,7 +5,9 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Text;
+
 using CsvHelper;
+using CsvHelper.Configuration;
 
 namespace Pretzel.Logic.Templating.Context.DataParsing
 {
@@ -25,7 +27,7 @@ namespace Pretzel.Logic.Templating.Context.DataParsing
 
             var csvList = new List<Dictionary<string, object>>();
 
-            using (var csv = new CsvReader(input, new CsvHelper.Configuration.Configuration
+            using (var csv = new CsvReader(input, new CsvConfiguration(CultureInfo.CurrentCulture)
             {
                 AllowComments = true,
                 CountBytes = false,
@@ -38,7 +40,7 @@ namespace Pretzel.Logic.Templating.Context.DataParsing
                 IgnoreQuotes = false,
                 HeaderValidated = null,
                 MissingFieldFound = null,
-                TrimOptions = CsvHelper.Configuration.TrimOptions.None,
+                TrimOptions = TrimOptions.None,
                 BadDataFound = null,
             }))
             {

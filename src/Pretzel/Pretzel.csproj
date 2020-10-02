@@ -18,17 +18,17 @@
     <ApplicationIcon>pretzel.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(GlobalTool)' != true">
-    <TargetFrameworks>net462;netcoreapp2.2</TargetFrameworks>
+    <TargetFrameworks>net462;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(GlobalTool)' == true">
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>pretzel</ToolCommandName>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageOutputPath>../../artifacts</PackageOutputPath>
     <PackageId>Pretzel.Tool</PackageId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.16.0.8981">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.13.1.21947">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
