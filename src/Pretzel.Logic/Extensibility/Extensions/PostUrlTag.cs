@@ -1,4 +1,3 @@
-using DotLiquid;
 using System.Collections.Generic;
 using System.IO;
 using Pretzel.Logic.Templating.Context;
@@ -8,7 +7,7 @@ using System.Composition;
 
 namespace Pretzel.Logic.Extensibility.Extensions
 {
-    public class PostUrlTag : DotLiquid.Tag, ITag
+    public class PostUrlTag : ITag //TODO: CUSTOM TAGS
     {
         private string _postFileName;
         private readonly SiteContext _siteContext;
@@ -44,16 +43,16 @@ namespace Pretzel.Logic.Extensibility.Extensions
             return url;
         }
 
-        public override void Initialize(string tagName, string markup, List<string> tokens)
-        {
-            base.Initialize(tagName, markup, tokens);
-            _postFileName = markup.Trim();
-        }
+        //public override void Initialize(string tagName, string markup, List<string> tokens)
+        //{
+        //    base.Initialize(tagName, markup, tokens);
+        //    _postFileName = markup.Trim();
+        //}
 
-        public override void Render(Context context, TextWriter result)
-        {   
-            result.Write(PostUrl(_postFileName));
-        }
+        //public override void Render(Context context, TextWriter result)
+        //{   
+        //    result.Write(PostUrl(_postFileName));
+        //}
     }
 
     [Export(typeof(PostUrlTagFactory))]

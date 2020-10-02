@@ -3,7 +3,7 @@ using Pretzel.Logic.Templating.Context;
 
 namespace Pretzel.Logic.Extensibility
 {
-    public abstract class TagFactoryBase : DotLiquid.ITagFactory
+    public abstract class TagFactoryBase // : DotLiquid.ITagFactory //TODO: TAG FACTORIES?
     {
         private readonly string _tageName;
         
@@ -22,10 +22,10 @@ namespace Pretzel.Logic.Extensibility
             }
         }
 
-        public DotLiquid.Tag Create()
-        {
-            return (DotLiquid.Tag)CreateTag();
-        }
+        //public DotLiquid.Tag Create()
+        //{
+        //    return (DotLiquid.Tag)CreateTag();
+        //}
 
         public abstract ITag CreateTag();
 

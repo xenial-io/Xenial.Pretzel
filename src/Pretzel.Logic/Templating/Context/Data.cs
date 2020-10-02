@@ -2,13 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
-using System.Linq;
-using DotLiquid;
 using Pretzel.Logic.Templating.Context.DataParsing;
 
 namespace Pretzel.Logic.Templating.Context
 {
-    public class Data : Drop
+    public class Data
     {
         private readonly IFileSystem fileSystem;
         private readonly string dataDirectory;
@@ -28,49 +26,49 @@ namespace Pretzel.Logic.Templating.Context
             };
         }
 
-        public override object this[object method]
-        {
-            get
-            {
-                var res = base[method];
-                if (res != null)
-                {
-                    return res;
-                }
+        //public override object this[object method]
+        //{
+        //    get
+        //    {
+        //        var res = base[method];
+        //        if (res != null)
+        //        {
+        //            return res;
+        //        }
 
-                if (!cachedResults.ContainsKey(method.ToString()))
-                {
-                    var cachedResult = new Lazy<object>(() =>
-                    {
-                        if (!fileSystem.Directory.Exists(dataDirectory))
-                        {
-                            return null;
-                        }
+        //        if (!cachedResults.ContainsKey(method.ToString()))
+        //        {
+        //            var cachedResult = new Lazy<object>(() =>
+        //            {
+        //                if (!fileSystem.Directory.Exists(dataDirectory))
+        //                {
+        //                    return null;
+        //                }
 
-                        var methodName = method.ToString();
-                        foreach (var dataParser in dataParsers)
-                        {
-                            if (dataParser.CanParse(dataDirectory, methodName))
-                            {
-                                return dataParser.Parse(dataDirectory, methodName);
-                            }
-                        }
+        //                var methodName = method.ToString();
+        //                foreach (var dataParser in dataParsers)
+        //                {
+        //                    if (dataParser.CanParse(dataDirectory, methodName))
+        //                    {
+        //                        return dataParser.Parse(dataDirectory, methodName);
+        //                    }
+        //                }
 
-                        var subFolder = Path.Combine(dataDirectory, method.ToString());
-                        if (fileSystem.Directory.Exists(subFolder))
-                        {
-                            return new Data(fileSystem, subFolder);
-                        }
+        //                var subFolder = Path.Combine(dataDirectory, method.ToString());
+        //                if (fileSystem.Directory.Exists(subFolder))
+        //                {
+        //                    return new Data(fileSystem, subFolder);
+        //                }
 
-                        return null;
-                    });
-                    cachedResults[method.ToString()] = cachedResult;
-                    return cachedResult.Value;
-                }
+        //                return null;
+        //            });
+        //            cachedResults[method.ToString()] = cachedResult;
+        //            return cachedResult.Value;
+        //        }
 
-                return cachedResults[method.ToString()].Value;
-            }
-        }
+        //        return cachedResults[method.ToString()].Value;
+        //    }
+        //}
     }
 
 }

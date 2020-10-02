@@ -1,9 +1,9 @@
-﻿using System.IO;
+using System.IO;
 using System.IO.Abstractions;
 
 namespace Pretzel.Logic.Templating.Jekyll
 {
-    public class Includes : DotLiquid.FileSystems.IFileSystem
+    public class Includes //: DotLiquid.FileSystems.IFileSystem //TODO: INCLUDES
     {
         private readonly IFileSystem _fileSystem;
 
@@ -15,7 +15,7 @@ namespace Pretzel.Logic.Templating.Jekyll
             _fileSystem = fileSystem;
         }
 
-        public string ReadTemplateFile(DotLiquid.Context context, string templateName)
+        public string ReadTemplateFile(string templateName)
         {
             var include = Path.Combine(Root, "_includes", templateName);
             if (_fileSystem.File.Exists(include))

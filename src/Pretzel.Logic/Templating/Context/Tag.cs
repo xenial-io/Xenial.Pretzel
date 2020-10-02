@@ -1,9 +1,8 @@
-using DotLiquid;
 using System.Collections.Generic;
 
 namespace Pretzel.Logic.Templating.Context
 {
-    public class Tag : Drop
+    public class Tag
     {
         public IEnumerable<Page> Posts { get; set; }
 

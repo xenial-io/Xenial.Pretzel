@@ -1,4 +1,5 @@
-using DotLiquid;
+using Fluid;
+
 using NSubstitute;
 using Pretzel.Logic.Templating.Context;
 using System;
@@ -28,7 +29,7 @@ namespace Pretzel.Tests.Templating.Context
         [Fact]
         public void renders_empty_string_if_data_directory_does_not_exist()
         {
-            var template = Template.Parse(@"{{ data.people }}");
+            var template = FluidTemplate.Parse(@"{{ data.people }}");
 
             var hash = Hash.FromAnonymousObject(new { Data = data });
 
@@ -50,7 +51,7 @@ namespace Pretzel.Tests.Templating.Context
         {
             fileSystem.AddFile(Path.Combine(dataDirectory, $"person.{ext}"), new MockFileData(fileContent));
 
-            var template = Template.Parse(@"{{ data.person.name }}");
+            var template = FluidTemplate.Parse(@"{{ data.person.name }}");
 
             var hash = Hash.FromAnonymousObject(new
             {
@@ -82,7 +83,7 @@ address:
         {
             fileSystem.AddFile(Path.Combine(dataDirectory, $"person.{ext}"), new MockFileData(fileContent));
 
-            var template = Template.Parse(@"{{ data.person.address.postalcode }}");
+            var template = FluidTemplate.Parse(@"{{ data.person.address.postalcode }}");
 
             var hash = Hash.FromAnonymousObject(new
             {
@@ -125,7 +126,7 @@ address:
         {
             fileSystem.AddFile(Path.Combine(dataDirectory, $"members.{ext}"), new MockFileData(fileContent));
 
-            var template = Template.Parse(@"{{ data.members | size }}");
+            var template = FluidTemplate.Parse(@"{{ data.members | size }}");
 
             var hash = Hash.FromAnonymousObject(new
             {
@@ -156,7 +157,7 @@ address:
         {
             fileSystem.AddFile(Path.Combine(dataDirectory, $"people.{ext}"), new MockFileData(fileContent));
 
-            var template = Template.Parse(@"{{ data.people['dave'].name }}");
+            var template = FluidTemplate.Parse(@"{{ data.people['dave'].name }}");
 
             var hash = Hash.FromAnonymousObject(new
             {
@@ -181,7 +182,7 @@ address:
         {
             fileSystem.AddFile(Path.Combine(dataDirectory, $@"users\person.{ext}"), new MockFileData(fileContent));
 
-            var template = Template.Parse(@"{{ data.users.person.name }}");
+            var template = FluidTemplate.Parse(@"{{ data.users.person.name }}");
 
             var hash = Hash.FromAnonymousObject(new
             {
@@ -220,7 +221,7 @@ email: eric@example.com")]
             file.Exists(fileName).Returns(true);
             file.ReadAllText(fileName).Returns(fileContent);
 
-            var template = Template.Parse(@"{{ data.person.name }} {{ data.person.email }}");
+            var template = FluidTemplate.Parse(@"{{ data.person.name }} {{ data.person.email }}");
 
             var hash = Hash.FromAnonymousObject(new
             {
@@ -245,11 +246,11 @@ email: eric@example.com")]
                 Data = data
             });
 
-            var templateEric = Template.Parse(@"{{ data.eric.name }}");
+            var templateEric = FluidTemplate.Parse(@"{{ data.eric.name }}");
             var resultEric = templateEric.Render(hash);
             Assert.Equal("Eric Mill", resultEric.Trim());
 
-            var templateManuel = Template.Parse(@"{{ data.manuel.name }}");
+            var templateManuel = FluidTemplate.Parse(@"{{ data.manuel.name }}");
             var resultManuel = templateManuel.Render(hash);
             Assert.Equal("Manuel Grundner", resultManuel.Trim());
         }
