@@ -124,6 +124,7 @@ namespace Pretzel.Logic.Templating.Jekyll
         {
             TemplateContext.GlobalFilters.AddFilter(nameof(PretzelFilters.xml_escape), PretzelFilters.xml_escape);
             TemplateContext.GlobalFilters.AddFilter(nameof(PretzelFilters.date_to_xmlschema), PretzelFilters.date_to_xmlschema);
+            TemplateContext.GlobalFilters.AddFilter(nameof(PretzelFilters.markdown), PretzelFilters.markdown);
         }
     }
 

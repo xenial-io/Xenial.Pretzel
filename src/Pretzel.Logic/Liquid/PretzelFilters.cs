@@ -29,5 +29,12 @@ namespace Pretzel.Logic.Liquid
             }
             return input;
         }
+
+        public static FluidValue markdown(FluidValue input, FilterArguments arguments, TemplateContext context)
+        {
+            _ = arguments ?? throw new ArgumentNullException(nameof(arguments));
+            _ = context ?? throw new ArgumentNullException(nameof(context));
+            return new StringValue(CommonMark.CommonMarkConverter.Convert(input.ToStringValue()));
+        }
     }
 }

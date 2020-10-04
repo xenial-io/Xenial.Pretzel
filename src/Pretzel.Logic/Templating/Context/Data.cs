@@ -42,49 +42,31 @@ namespace Pretzel.Logic.Templating.Context
         public bool IsReadOnly => values.IsReadOnly;
 
         public void Add(string key, object value)
-        {
-            values.Add(key, value);
-        }
+            => values.Add(key, value);
 
         public void Add(KeyValuePair<string, object> item)
-        {
-            values.Add(item);
-        }
+            => values.Add(item);
 
         public void Clear()
-        {
-            values.Clear();
-        }
+            => values.Clear();
 
         public bool Contains(KeyValuePair<string, object> item)
-        {
-            return values.Contains(item);
-        }
+            => values.Contains(item);
 
         public bool ContainsKey(string key)
-        {
-            return values.ContainsKey(key);
-        }
+            => values.ContainsKey(key);
 
         public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex)
-        {
-            values.CopyTo(array, arrayIndex);
-        }
+            => values.CopyTo(array, arrayIndex);
 
         public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
-        {
-            return values.GetEnumerator();
-        }
+            => values.GetEnumerator();
 
         public bool Remove(string key)
-        {
-            return values.Remove(key);
-        }
+            => values.Remove(key);
 
         public bool Remove(KeyValuePair<string, object> item)
-        {
-            return values.Remove(item);
-        }
+            => values.Remove(item);
 
         public bool TryGetValue(string key, out object value)
         {
@@ -120,9 +102,7 @@ namespace Pretzel.Logic.Templating.Context
         }
 
         IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable)values).GetEnumerator();
-        }
+            => ((IEnumerable)values).GetEnumerator();
 
         private void Parse()
         {
