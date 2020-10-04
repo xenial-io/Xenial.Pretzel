@@ -1,12 +1,11 @@
 using System;
-using System.Globalization;
 using System.Threading.Tasks;
-using Pretzel.Logic.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Pretzel.Logic.Hosting
 {
@@ -43,8 +42,12 @@ namespace Pretzel.Logic.Hosting
                 {
                     if (!Debug) l.ClearProviders();
                 })
-                .ConfigureKestrel(k => k.ListenLocalhost(Port))
-                .Configure(config => config.UseDefaultFiles().UseStaticFiles())
+                .UseUrls($"https://localhost:{Port}")
+                .Configure(config => config
+                    .UseHttpsRedirection()
+                    .UseDefaultFiles()
+                    .UseStaticFiles()
+                )
                 .UseWebRoot(BasePath).Build();
 
             await webHost.StartAsync();
