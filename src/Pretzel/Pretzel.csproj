@@ -16,21 +16,19 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>pretzel</ToolCommandName>
     <TargetFramework>net5</TargetFramework>
-    <PackageOutputPath>../../artifacts</PackageOutputPath>
-    <PackageId>Xenial.Pretzel.Tool</PackageId>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="SonarAnalyzer.CSharp" Version="8.13.1.21947">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\Pretzel.Logic\Pretzel.Logic.csproj" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <Content Include="pretzel.ico" />
   </ItemGroup>
