@@ -2,8 +2,8 @@
   <PropertyGroup>
     <GlobalTool>false</GlobalTool>
     <OutputType>Exe</OutputType>
-    <Company>Code52</Company>
-    <Authors>Code52</Authors>
+    <Company>Code52, Xenial</Company>
+    <Authors>Code52, Xenial, Manuel Grundner</Authors>
     <Description>A simple static site generator for Windows/Linux/MacOs</Description>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
@@ -16,7 +16,7 @@
     <ToolCommandName>pretzel</ToolCommandName>
     <TargetFramework>net5</TargetFramework>
     <PackageOutputPath>../../artifacts</PackageOutputPath>
-    <PackageId>Pretzel.Tool</PackageId>
+    <PackageId>Xenial.Pretzel.Tool</PackageId>
   </PropertyGroup>
   
   <ItemGroup>

@@ -2,9 +2,10 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net5</TargetFrameworks>
     <Description>Logic library for Pretzel (https://github.com/code52/pretzel), useful to make plugins.</Description>
-    <Authors>Code52</Authors>
+	<Company>Code52, Xenial</Company>
+	<Authors>Code52, Xenial, Manuel Grundner</Authors>
     <PackageIconUrl>https://cdn.rawgit.com/Code52/pretzel/master/pretzel.png</PackageIconUrl>
-    <PackageId>Pretzel.Logic</PackageId>
+    <PackageId>Xenial.Pretzel.Logic</PackageId>
     <PackageLicenseUrl>https://github.com/Code52/pretzel/blob/master/LICENSE.md</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/code52/pretzel</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/Code52/pretzel/releases</PackageReleaseNotes>
