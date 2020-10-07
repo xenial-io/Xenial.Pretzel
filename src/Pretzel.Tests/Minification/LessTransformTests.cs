@@ -198,7 +198,7 @@ namespace Pretzel.Tests.Minification
 
             // assert
             // No css file have been generated
-            Assert.Equal(2, fileSystem.AllPaths.Count());
+            Assert.Equal(3, fileSystem.AllPaths.Count());
             Assert.DoesNotContain(fileSystem.AllPaths, p => p.EndsWith(".css"));
         }
 
@@ -248,7 +248,7 @@ namespace Pretzel.Tests.Minification
 
             // assert
             // No css file have been generated
-            Assert.Equal(2, fileSystem.AllPaths.Count());
+            Assert.Equal(3, fileSystem.AllPaths.Count());
             Assert.DoesNotContain(fileSystem.AllPaths, p => p.EndsWith(".css"));
         }
 
@@ -275,7 +275,7 @@ namespace Pretzel.Tests.Minification
             minifier.Transform(context);
 
             // assert
-            Assert.Equal(5, fileSystem.AllPaths.Count());
+            Assert.Equal(6, fileSystem.AllPaths.Count());
             Assert.Equal(1, fileSystem.AllPaths.Count(p => p.EndsWith(".css")));
         }
 

@@ -1,7 +1,9 @@
 {
   "profiles": {
     "Pretzel": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "taste -s=src\\content -d=../../_site",
+      "workingDirectory": "C:\\f\\git\\Scissors.Blog"
     }
   }
 }

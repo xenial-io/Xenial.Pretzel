@@ -108,7 +108,7 @@ namespace Pretzel.Logic.Templating
                 return;
             }
 
-            if (extension.IsMarkdownFile() || extension.IsRazorFile())
+            if (extension.IsMarkdownFile())
             {
                 page.OutputFile = page.OutputFile.Replace(extension, ".html");
             }

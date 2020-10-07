@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Pretzel.Logic.Modules
 {
-    public class SimpleFileSystemWatcher : IFileSystemWatcher, IDisposable
+    public sealed class SimpleFileSystemWatcher : IFileSystemWatcher, IDisposable
     {
         private readonly FileSystemWatcher watcher;
         private readonly string destinationPath;

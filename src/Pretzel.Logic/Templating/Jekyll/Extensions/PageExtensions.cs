@@ -1,21 +1,29 @@
-﻿using DotLiquid;
+using System.Collections.Generic;
+using System.Linq;
+
+using Fluid;
+
 using Pretzel.Logic.Templating.Context;
 
 namespace Pretzel.Logic.Templating.Jekyll.Extensions
 {
     public static class PageExtensions
     {
-        public static Hash ToHash(this Page page)
+        public static IDictionary<string, object> ToHash(this Page page, TemplateContext context)
         {
-            var p = Hash.FromDictionary(page.Bag);
-            p.Remove("Date");
-            p.Remove("Title");
-            p.Remove("Url");
-            p.Add("Title", page.Title);
-            p.Add("Url", page.Url);
-            p.Add("Date", page.Date);
-            p.Add("Content", page.Content);
-            return p;
+            var dict = new Dictionary<string, object>(page.Bag);
+            context.MemberAccessStrategy.Register(typeof(Dictionary<string, object>));
+            context.MemberAccessStrategy.Register(typeof(IDictionary<string, object>));
+
+            dict.Remove("Date");
+            dict.Remove("Title");
+            dict.Remove("Url");
+            dict.Add("Title", page.Title);
+            dict.Add("Url", page.Url);
+            dict.Add("Date", page.Date);
+            dict.Add("Content", page.Content);
+
+            return dict;
         }
     }
 }

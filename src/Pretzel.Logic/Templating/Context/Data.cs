@@ -1,19 +1,20 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
-using System.Linq;
-using DotLiquid;
+
 using Pretzel.Logic.Templating.Context.DataParsing;
 
 namespace Pretzel.Logic.Templating.Context
 {
-    public class Data : Drop
+    public class Data : IDictionary<string, object>
     {
         private readonly IFileSystem fileSystem;
         private readonly string dataDirectory;
         private readonly Dictionary<string, Lazy<object>> cachedResults = new Dictionary<string, Lazy<object>>();
         private readonly IList<IDataParser> dataParsers;
+        private readonly IDictionary<string, object> values = new Dictionary<string, object>();
 
         public Data(IFileSystem fileSystem, string dataDirectory)
         {
@@ -26,50 +27,111 @@ namespace Pretzel.Logic.Templating.Context
                 new CsvTsvDataParser(fileSystem, "csv"),
                 new CsvTsvDataParser(fileSystem, "tsv", "\t")
             };
+            Parse();
         }
 
-        public override object this[object method]
+        public object this[string key]
+        { get => values[key]; set => values[key] = value; }
+
+        public ICollection<string> Keys => values.Keys;
+
+        public ICollection<object> Values => values.Values;
+
+        public int Count => values.Count;
+
+        public bool IsReadOnly => values.IsReadOnly;
+
+        public void Add(string key, object value)
+            => values.Add(key, value);
+
+        public void Add(KeyValuePair<string, object> item)
+            => values.Add(item);
+
+        public void Clear()
+            => values.Clear();
+
+        public bool Contains(KeyValuePair<string, object> item)
+            => values.Contains(item);
+
+        public bool ContainsKey(string key)
+            => values.ContainsKey(key);
+
+        public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex)
+            => values.CopyTo(array, arrayIndex);
+
+        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+            => values.GetEnumerator();
+
+        public bool Remove(string key)
+            => values.Remove(key);
+
+        public bool Remove(KeyValuePair<string, object> item)
+            => values.Remove(item);
+
+        public bool TryGetValue(string key, out object value)
         {
-            get
+            if (key.Contains("/"))
             {
-                var res = base[method];
-                if (res != null)
-                {
-                    return res;
-                }
+                var splittedKeys = key.Split(new []{ '/' }, StringSplitOptions.RemoveEmptyEntries);
 
-                if (!cachedResults.ContainsKey(method.ToString()))
+                var storage = values;
+                object retVal = null;
+
+                foreach (var splittedKey in splittedKeys)
                 {
-                    var cachedResult = new Lazy<object>(() =>
+                    if (storage.TryGetValue(splittedKey, out var s))
                     {
-                        if (!fileSystem.Directory.Exists(dataDirectory))
+                        if (s is IDictionary<string, object> subStorage)
                         {
-                            return null;
+                            storage = subStorage;
+                            retVal = storage;
                         }
-
-                        var methodName = method.ToString();
-                        foreach (var dataParser in dataParsers)
+                        else
                         {
-                            if (dataParser.CanParse(dataDirectory, methodName))
-                            {
-                                return dataParser.Parse(dataDirectory, methodName);
-                            }
+                            retVal = s;
                         }
-
-                        var subFolder = Path.Combine(dataDirectory, method.ToString());
-                        if (fileSystem.Directory.Exists(subFolder))
-                        {
-                            return new Data(fileSystem, subFolder);
-                        }
-
-                        return null;
-                    });
-                    cachedResults[method.ToString()] = cachedResult;
-                    return cachedResult.Value;
+                    }
                 }
-
-                return cachedResults[method.ToString()].Value;
+                if(retVal is not null)
+                {
+                    value = retVal;
+                    return true;
+                }
             }
+            return values.TryGetValue(key, out value);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+            => ((IEnumerable)values).GetEnumerator();
+
+        private void Parse()
+        {
+            if (!fileSystem.Directory.Exists(dataDirectory))
+            {
+                return;
+            }
+            var files = fileSystem.Directory.EnumerateFiles(dataDirectory);
+            foreach (var file in files)
+            {
+                var name = Path.GetFileNameWithoutExtension(file);
+                foreach (var dataParser in dataParsers)
+                {
+                    if (dataParser.CanParse(dataDirectory, name))
+                    {
+                        values[name] = dataParser.Parse(dataDirectory, name);
+                    }
+                }
+            }
+
+            foreach (var subFolder in fileSystem.Directory.EnumerateDirectories(dataDirectory))
+            {
+                if (fileSystem.Directory.Exists(subFolder))
+                {
+                    var name = Path.GetFileNameWithoutExtension(subFolder);
+                    values[name] = new Data(fileSystem, subFolder);
+                }
+            }
+
         }
     }
 

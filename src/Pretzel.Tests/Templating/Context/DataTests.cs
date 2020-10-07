@@ -1,14 +1,15 @@
-using DotLiquid;
-using NSubstitute;
-using Pretzel.Logic.Templating.Context;
+
 using System;
+
 using System.Collections.Generic;
+
 using System.IO;
-using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using Fluid;
+
+using Pretzel.Logic.Templating.Context;
+
 using Xunit;
 
 namespace Pretzel.Tests.Templating.Context
@@ -22,19 +23,36 @@ namespace Pretzel.Tests.Templating.Context
         public DataTests()
         {
             fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>());
-            data = new Data(fileSystem, dataDirectory);
         }
 
         [Fact]
         public void renders_empty_string_if_data_directory_does_not_exist()
         {
-            var template = Template.Parse(@"{{ data.people }}");
+            var template = FluidTemplate.Parse(@"{{ data.people }}");
 
-            var hash = Hash.FromAnonymousObject(new { Data = data });
+            var templateContext = CreateTemplateContext();
 
-            var result = template.Render(hash);
+            var result = template.Render(templateContext);
 
             Assert.Equal("", result.Trim());
+        }
+
+        private TemplateContext CreateTemplateContext()
+        {
+            var model = new DataContext { data = new Data(fileSystem, dataDirectory) };
+            var templateContext = new TemplateContext();
+            templateContext.MemberAccessStrategy.Register(model.GetType());
+            templateContext.MemberAccessStrategy.Register(typeof(Data));
+            templateContext.MemberAccessStrategy.Register(typeof(IDictionary<string, object>));
+            templateContext.MemberAccessStrategy.Register(typeof(Dictionary<string, object>));
+
+            templateContext.Model = model;
+            return templateContext;
+        }
+
+        public class DataContext
+        {
+            public Data data { get; set; }
         }
 
         [Theory]
@@ -50,14 +68,11 @@ namespace Pretzel.Tests.Templating.Context
         {
             fileSystem.AddFile(Path.Combine(dataDirectory, $"person.{ext}"), new MockFileData(fileContent));
 
-            var template = Template.Parse(@"{{ data.person.name }}");
+            var template = FluidTemplate.Parse(@"{{ data.person.name }}");
 
-            var hash = Hash.FromAnonymousObject(new
-            {
-                Data = data
-            });
+            var templateContext = CreateTemplateContext();
 
-            var result = template.Render(hash);
+            var result = template.Render(templateContext);
 
             Assert.Equal("Eric Mill", result.Trim());
         }
@@ -82,14 +97,11 @@ address:
         {
             fileSystem.AddFile(Path.Combine(dataDirectory, $"person.{ext}"), new MockFileData(fileContent));
 
-            var template = Template.Parse(@"{{ data.person.address.postalcode }}");
+            var template = FluidTemplate.Parse(@"{{ data.person.address.postalcode }}");
 
-            var hash = Hash.FromAnonymousObject(new
-            {
-                Data = data
-            });
+            var templateContext = CreateTemplateContext();
 
-            var result = template.Render(hash);
+            var result = template.Render(templateContext);
 
             Assert.Equal("1234", result.Trim());
         }
@@ -125,14 +137,11 @@ address:
         {
             fileSystem.AddFile(Path.Combine(dataDirectory, $"members.{ext}"), new MockFileData(fileContent));
 
-            var template = Template.Parse(@"{{ data.members | size }}");
+            var template = FluidTemplate.Parse(@"{{ data.members | size }}");
 
-            var hash = Hash.FromAnonymousObject(new
-            {
-                Data = data
-            });
+            var templateContext = CreateTemplateContext();
 
-            var result = template.Render(hash);
+            var result = template.Render(templateContext);
 
             Assert.Equal("3", result.Trim());
         }
@@ -156,14 +165,11 @@ address:
         {
             fileSystem.AddFile(Path.Combine(dataDirectory, $"people.{ext}"), new MockFileData(fileContent));
 
-            var template = Template.Parse(@"{{ data.people['dave'].name }}");
+            var template = FluidTemplate.Parse(@"{{ data.people['dave'].name }}");
 
-            var hash = Hash.FromAnonymousObject(new
-            {
-                Data = data
-            });
+            var templateContext = CreateTemplateContext();
 
-            var result = template.Render(hash);
+            var result = template.Render(templateContext);
 
             Assert.Equal("David Smith", result.Trim());
         }
@@ -181,14 +187,11 @@ address:
         {
             fileSystem.AddFile(Path.Combine(dataDirectory, $@"users\person.{ext}"), new MockFileData(fileContent));
 
-            var template = Template.Parse(@"{{ data.users.person.name }}");
+            var template = FluidTemplate.Parse(@"{{ data.users.person.name }}");
 
-            var hash = Hash.FromAnonymousObject(new
-            {
-                Data = data
-            });
+            var templateContext = CreateTemplateContext();
 
-            var result = template.Render(hash);
+            var result = template.Render(templateContext);
 
             Assert.Equal("Eric Mill", result.Trim());
         }
@@ -206,32 +209,18 @@ email: eric@example.com")]
 ""Eric Mill""	""eric@example.com""")]
         public void caches_result(string ext, string fileContent)
         {
-            var fileSystem = Substitute.For<IFileSystem>();
-            var data = new Data(fileSystem, dataDirectory);
-
-            var directory = Substitute.For<DirectoryBase>();
-            fileSystem.Directory.Returns(directory);
-            directory.Exists(dataDirectory).Returns(true);
-
-            var file = Substitute.For<FileBase>();
-            fileSystem.File.Returns(file);
+            fileSystem.Directory.CreateDirectory(dataDirectory);
 
             var fileName = Path.Combine(dataDirectory, $"person.{ext}");
-            file.Exists(fileName).Returns(true);
-            file.ReadAllText(fileName).Returns(fileContent);
+            fileSystem.AddFile(fileName, new MockFileData(fileContent));
 
-            var template = Template.Parse(@"{{ data.person.name }} {{ data.person.email }}");
+            var template = FluidTemplate.Parse(@"{{ data.person.name }} {{ data.person.email }}");
 
-            var hash = Hash.FromAnonymousObject(new
-            {
-                Data = data
-            });
+            var templateContext = CreateTemplateContext();
 
-            var result = template.Render(hash);
+            var result = template.Render(templateContext);
 
             Assert.Equal("Eric Mill eric@example.com", result.Trim());
-
-            file.Received(1).ReadAllText(fileName);
         }
 
         [Fact]
@@ -240,17 +229,14 @@ email: eric@example.com")]
             fileSystem.AddFile(Path.Combine(dataDirectory, $"eric.yml"), new MockFileData(@"name: Eric Mill"));
             fileSystem.AddFile(Path.Combine(dataDirectory, $"manuel.yml"), new MockFileData(@"name: Manuel Grundner"));
 
-            var hash = Hash.FromAnonymousObject(new
-            {
-                Data = data
-            });
+            var templateContext = CreateTemplateContext();
 
-            var templateEric = Template.Parse(@"{{ data.eric.name }}");
-            var resultEric = templateEric.Render(hash);
+            var templateEric = FluidTemplate.Parse(@"{{ data.eric.name }}");
+            var resultEric = templateEric.Render(templateContext);
             Assert.Equal("Eric Mill", resultEric.Trim());
 
-            var templateManuel = Template.Parse(@"{{ data.manuel.name }}");
-            var resultManuel = templateManuel.Render(hash);
+            var templateManuel = FluidTemplate.Parse(@"{{ data.manuel.name }}");
+            var resultManuel = templateManuel.Render(templateContext);
             Assert.Equal("Manuel Grundner", resultManuel.Trim());
         }
     }

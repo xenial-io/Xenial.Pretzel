@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.CommandLine;
 using System.Composition;
 using System.IO.Abstractions;
 using System.Linq;
@@ -18,21 +17,6 @@ namespace Pretzel.Logic.Commands
     {
         [ImportingConstructor]
         public RecipeCommandArguments(IFileSystem fileSystem) : base(fileSystem) { }
-
-        protected override IEnumerable<Option> CreateOptions() => base.CreateOptions().Concat(new[]
-        {
-            new Option(new [] { "-p", "--withproject" }, "Includes a layout VS Solution, to give intellisense when editing razor layout files")
-            {
-                Argument = new Argument<bool>()
-            },
-            new Option(new [] { "-w", "--wiki"}, "Creates a wiki instead of a blog (razor template only)")
-            {
-                Argument = new Argument<bool>()
-            },
-        });
-
-        public bool WithProject { get; set; }
-        public bool Wiki { get; set; }
     }
 
     [Shared]
@@ -44,7 +28,7 @@ namespace Pretzel.Logic.Commands
         )]
     public sealed class RecipeCommand : Command<RecipeCommandArguments>
     {
-        private static readonly List<string> TemplateEngines = new List<string>(new[] { "Liquid", "Razor" });
+        private static readonly List<string> TemplateEngines = new List<string>(new[] { "Liquid" });
 
         [Import]
         public IFileSystem FileSystem { get; set; }
@@ -69,7 +53,7 @@ namespace Pretzel.Logic.Commands
 
             Tracing.Info("Using {0} Engine", engine);
 
-            var recipe = new Recipe(FileSystem, engine, arguments.Source, AdditionalIngredients, arguments.WithProject, arguments.Wiki, arguments.Drafts);
+            var recipe = new Recipe(FileSystem, engine, arguments.Source, AdditionalIngredients, arguments.Drafts);
             recipe.Create();
 
             return Task.FromResult(0);

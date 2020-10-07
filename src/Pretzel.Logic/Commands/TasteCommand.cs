@@ -116,7 +116,7 @@ namespace Pretzel.Logic.Commands
                         return 1;
                     }
 
-                    var url = string.Format("http://localhost:{0}/", arguments.Port);
+                    var url = string.Format("https://localhost:{0}/", arguments.Port);
                     if (arguments.LaunchBrowser)
                     {
                         Tracing.Info("Opening {0} in default browser...", url);

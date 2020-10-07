@@ -5,7 +5,6 @@ using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
 using System.Text;
-using DotLiquid;
 using NSubstitute;
 using Pretzel.Logic;
 using Pretzel.Logic.Exceptions;
@@ -1179,134 +1178,6 @@ namespace Pretzel.Tests.Templating.Jekyll
             }
         }
 
-        public class Given_Page_Has_HighlightBlock : BakingEnvironment<LiquidEngine>
-        {
-            private const string PageContents = "---\r\n layout: nil \r\n---\r\n\r\n{% highlight %}a word{% endhighlight %}";
-            private const string ExpectedfileContents = "<pre>a word</pre>";
-
-            public override LiquidEngine Given()
-            {
-                Template.RegisterTag<HighlightBlock>("highlight");
-                return new LiquidEngine();
-            }
-
-            public override void When()
-            {
-                FileSystem.AddFile(@"C:\website\index.md", new MockFileData(PageContents));
-                var generator = GetSiteContextGenerator(FileSystem);
-                var context = generator.BuildContext(@"C:\website\", @"C:\website\_site", false);
-                Subject.FileSystem = FileSystem;
-                Subject.Process(context);
-            }
-
-            [Fact]
-            public void The_Output_Should_Have_Been_Highlighted()
-            {
-                Assert.Equal(ExpectedfileContents, FileSystem.File.ReadAllText(@"C:\website\_site\index.html").RemoveWhiteSpace());
-            }
-        }
-
-        public class Given_Page_Has_HighlightBlock_With_Language : BakingEnvironment<LiquidEngine>
-        {
-            private const string PageContents = "---\r\n layout: nil \r\n---\r\n\r\n{% highlight cs %}a word{% endhighlight %}";
-            private const string ExpectedfileContents = "<pre><code class=\"language-cs\">a word</code></pre>";
-
-            public override LiquidEngine Given()
-            {
-                Template.RegisterTag<HighlightBlock>("highlight");
-                return new LiquidEngine();
-            }
-
-            public override void When()
-            {
-                FileSystem.AddFile(@"C:\website\index.md", new MockFileData(PageContents));
-                var generator = GetSiteContextGenerator(FileSystem);
-                var context = generator.BuildContext(@"C:\website\", @"C:\website\_site", false);
-                Subject.FileSystem = FileSystem;
-                Subject.Process(context);
-            }
-
-            [Fact]
-            public void The_Output_Should_Have_Been_Highlighted()
-            {
-                Assert.Equal(ExpectedfileContents, FileSystem.File.ReadAllText(@"C:\website\_site\index.html").RemoveWhiteSpace());
-            }
-        }
-
-        public class Given_LiquidEngine_Is_Initialized : BakingEnvironment<LiquidEngine>
-        {
-            private const string HighlightPageContents = "---\r\n layout: nil \r\n---\r\n\r\n{% highlight %}a word{% endhighlight %}";
-            private const string HighlightExpectedfileContents = "<pre>a word</pre>";
-            private const string PostUrlPageContents = "---\r\n layout: nil \r\n---\r\n\r\n{% post_url NumberOfWords.md %}";
-            private const string PostUrlExpectedfileContents = "<p>/NumberOfWords.html</p>";
-            private const string CgiEscapePageContents = "---\r\n layout: nil \r\n---\r\n\r\n{{ 'foo,bar;baz?' | cgi_escape }}";
-            private const string CgiEscapeExpectedfileContents = "<p>foo%2Cbar%3Bbaz%3F</p>";
-            private const string UriEscapePageContents = "---\r\n layout: nil \r\n---\r\n\r\n{{ 'foo, bar \\baz?' | uri_escape }}";
-            private const string UriEscapeExpectedfileContents = "<p>foo,%20bar%20%5Cbaz?</p>";
-            private const string NumberOfWordsPageContents = "---\r\n layout: nil \r\n---\r\n\r\n{{ 'This is a test' | number_of_words }}";
-            private const string NumberOfWordsExpectedfileContents = "<p>4</p>";
-            private const string XmlEscapePageContents = "---\r\n layout: nil \r\n---\r\n\r\n{{ '<test>this is a test</test>' | xml_escape }}";
-            private const string XmlEscapeExpectedfileContents = "<p>&lt;test&gt;this is a test&lt;/test&gt;</p>";
-
-            public override LiquidEngine Given()
-            {
-                var engine = new LiquidEngine();
-                engine.Initialize();
-                return engine;
-            }
-
-            public override void When()
-            {
-                FileSystem.AddFile(@"C:\website\Highlight.md", new MockFileData(HighlightPageContents));
-                FileSystem.AddFile(@"C:\website\PostUrl.md", new MockFileData(PostUrlPageContents));
-                FileSystem.AddFile(@"C:\website\CgiEscape.md", new MockFileData(CgiEscapePageContents));
-                FileSystem.AddFile(@"C:\website\UriEscape.md", new MockFileData(UriEscapePageContents));
-                FileSystem.AddFile(@"C:\website\NumberOfWords.md", new MockFileData(NumberOfWordsPageContents));
-                FileSystem.AddFile(@"C:\website\XmlEscape.md", new MockFileData(XmlEscapePageContents));
-                var generator = GetSiteContextGenerator(FileSystem);
-                var context = generator.BuildContext(@"C:\website\", @"C:\website\_site", false);
-                Subject.FileSystem = FileSystem;
-                Subject.TagFactories = new List<TagFactoryBase> { new PostUrlTagFactory() };
-                Subject.Process(context);
-            }
-
-            [Fact]
-            public void The_Output_Should_Have_Been_Highlighted()
-            {
-                Assert.Equal(HighlightExpectedfileContents, FileSystem.File.ReadAllText(@"C:\website\_site\Highlight.html").RemoveWhiteSpace());
-            }
-
-            [Fact]
-            public void The_Output_Should_Have_A_PostUrl()
-            {
-                Assert.Equal(PostUrlExpectedfileContents, FileSystem.File.ReadAllText(@"C:\website\_site\PostUrl.html").RemoveWhiteSpace());
-            }
-
-            [Fact]
-            public void The_Output_Should_Have_Been_CgiEscaped()
-            {
-                Assert.Equal(CgiEscapeExpectedfileContents, FileSystem.File.ReadAllText(@"C:\website\_site\CgiEscape.html").RemoveWhiteSpace());
-            }
-
-            [Fact]
-            public void The_Output_Should_Have_Been_UriEscaped()
-            {
-                Assert.Equal(UriEscapeExpectedfileContents, FileSystem.File.ReadAllText(@"C:\website\_site\UriEscape.html").RemoveWhiteSpace());
-            }
-
-            [Fact]
-            public void The_Output_Should_Be_The_Number_Of_Words()
-            {
-                Assert.Equal(NumberOfWordsExpectedfileContents, FileSystem.File.ReadAllText(@"C:\website\_site\NumberOfWords.html").RemoveWhiteSpace());
-            }
-
-            [Fact]
-            public void The_Output_Should_Have_Been_XmlEscaped()
-            {
-                Assert.Equal(XmlEscapeExpectedfileContents, FileSystem.File.ReadAllText(@"C:\website\_site\XmlEscape.html").RemoveWhiteSpace());
-            }
-        }
-
         public class Given_Markdown_Page_Has_An_Empty_Title : BakingEnvironment<LiquidEngine>
         {
             private const string TemplateContents = "<html><head><title>{{ page.title }}</title></head><body>{{ content }}</body></html>";
@@ -1697,50 +1568,6 @@ namespace Pretzel.Tests.Templating.Jekyll
             public void The_first_alphabetically_category_must_appear_in_the_content()
             {
                 Assert.Equal(ExpectedPageContent, FileSystem.File.ReadAllText(@"C:\website\_site\mycategory\2015\02\02\post.html").RemoveWhiteSpace());
-            }
-        }
-
-        public class Given_Engine_Has_Custom_Tag : BakingEnvironment<LiquidEngine>
-        {
-            private const string PageContent = "---\r\n \r\n---\r\n{% custom %}";
-            private const string ExpectedPageContents = "<p>custom tag</p>";
-
-            public override LiquidEngine Given()
-            {
-                return new LiquidEngine();
-            }
-
-            public override void When()
-            {
-                FileSystem.AddFile(@"C:\website\index.md", new MockFileData(PageContent));
-                var generator = GetSiteContextGenerator(FileSystem);
-                var context = generator.BuildContext(@"C:\website\", @"C:\website\_site", false);
-                Subject.FileSystem = FileSystem;
-
-                Subject.Tags = new List<ITag> { new CustomTag() };
-
-                Subject.Process(context);
-            }
-
-            [Fact]
-            public void Page_should_contain_custom_tag()
-            {
-                Assert.Equal(ExpectedPageContents, FileSystem.File.ReadAllText(@"C:\website\_site\index.html").RemoveWhiteSpace());
-            }
-
-            public class CustomTag : DotLiquid.Tag, ITag
-            {
-                public new string Name { get { return "Custom"; } }
-
-                public static string Custom()
-                {
-                    return "custom tag";
-                }
-
-                public override void Render(DotLiquid.Context context, TextWriter result)
-                {
-                    result.WriteLine(Custom());
-                }
             }
         }
 
@@ -2176,71 +2003,7 @@ categories: [{0}]
                 Assert.Equal("<h1>Title</h1>", FileSystem.File.ReadAllText(@"D:\Result\_site\2012\01\04\SomeFile.html"));
             }
         }
-        public class Given_Engine_Has_Custom_TagFactory : BakingEnvironment<LiquidEngine>
-        {
-            private const string ConfigContents = "---\r\n title: Site Title\r\n---";
-            private const string PageContent = "---\r\n \r\n---\r\n{% custom %}";
-            private const string ExpectedPageContents = "<p>custom tag: Site Title</p>";
-
-            public override LiquidEngine Given()
-            {
-                return new LiquidEngine();
-            }
-
-            public override void When()
-            {
-                FileSystem.AddFile(@"C:\website\index.md", new MockFileData(PageContent));
-                var generator = GetSiteContextGenerator(FileSystem, new ConfigurationMock(ConfigContents));
-                var context = generator.BuildContext(@"C:\website\", @"C:\website\_site", false);
-                Subject.FileSystem = FileSystem;
-
-                Subject.TagFactories = new List<TagFactoryBase> { new CustomTagFactory() };
-
-                Subject.Process(context);
-            }
-
-            [Fact]
-            public void Page_should_contain_custom_tag()
-            {
-                Assert.Equal(ExpectedPageContents, FileSystem.File.ReadAllText(@"C:\website\_site\index.html").RemoveWhiteSpace());
-            }
-
-            public class CustomTag : DotLiquid.Tag, ITag
-            {
-                private readonly SiteContext _siteContext;
-
-                public new string Name { get { return "Custom"; } }
-
-                public CustomTag(SiteContext siteContext)
-                {
-                    _siteContext = siteContext;
-                }
-
-                public string Custom()
-                {
-                    return string.Format("custom tag: {0}", _siteContext.Config["title"]);
-                }
-
-                public override void Render(DotLiquid.Context context, TextWriter result)
-                {
-                    result.WriteLine(Custom());
-                }
-            }
-
-            public class CustomTagFactory : TagFactoryBase
-            {
-                public CustomTagFactory() : base("Custom")
-                {
-
-                }
-
-                public override ITag CreateTag()
-                {
-                    return new CustomTag(this.SiteContext);
-                }
-            }
-        }
-
+   
         public class Given_Page_Uses_Html_Pages : BakingEnvironment<LiquidEngine>
         {
             private const string TemplateContents = "<html><body>{{ content }}</body></html>";

@@ -1,14 +1,18 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using DotLiquid;
+using System.Runtime.InteropServices.ComTypes;
+
+using Fluid;
+
 using Pretzel.Logic.Templating.Context;
 using Pretzel.Logic.Templating.Jekyll.Extensions;
 
 namespace Pretzel.Logic.Templating.Jekyll.Liquid
 {
-    public class SiteContextDrop : Drop
+    public class SiteContextDrop
     {
-        private readonly SiteContext context;
+        public SiteContext context { get; }
 
         public DateTime Time
         {
@@ -23,24 +27,40 @@ namespace Pretzel.Logic.Templating.Jekyll.Liquid
             get { return context.Title; }
         }
 
+        public IDictionary<string, object> Data
+        {
+            get { return context.Data; }
+        }
+
         public SiteContextDrop(SiteContext context)
         {
             this.context = context;
         }
 
-        public Hash ToHash()
+        public IDictionary<string, object> ToHash(TemplateContext templateContext)
         {
-            var x = Hash.FromDictionary(context.Config.ToDictionary());
-            x["posts"] = context.Posts.Select(p => p.ToHash()).ToList();
-            x["pages"] = context.Pages.Select(p => p.ToHash()).ToList();
-            x["html_pages"] = context.Html_Pages.Select(p => p.ToHash()).ToList();
-            x["title"] = context.Title;
-            x["tags"] = context.Tags;
-            x["categories"] = context.Categories;
-            x["time"] = Time;
-            x["data"] = context.Data;
+            var dict = context.Config.ToDictionary();
+            templateContext.MemberAccessStrategy.Register(dict.GetType());
+            templateContext.MemberAccessStrategy.Register(typeof(SiteContextDrop));
+            templateContext.MemberAccessStrategy.Register(typeof(IEnumerable<Tag>));
+            templateContext.MemberAccessStrategy.Register(typeof(Tag));
+            templateContext.MemberAccessStrategy.Register(typeof(IEnumerable<Category>));
+            templateContext.MemberAccessStrategy.Register(typeof(Category));
+            templateContext.MemberAccessStrategy.Register(typeof(Data));
+            templateContext.MemberAccessStrategy.Register(typeof(IList<Page>));
+            templateContext.MemberAccessStrategy.Register(typeof(Page));
+            templateContext.Model = dict;
 
-            return x;
+            dict["posts"] = context.Posts.Select(p => p.ToHash(templateContext)).ToList();
+            dict["pages"] = context.Pages.Select(p => p.ToHash(templateContext)).ToList();
+            dict["html_pages"] = context.Html_Pages.Select(p => p.ToHash(templateContext)).ToList();
+            dict["title"] = context.Title;
+            dict["tags"] = context.Tags;
+            dict["categories"] = context.Categories;
+            dict["time"] = Time;
+            dict["data"] = context.Data;
+
+            return dict;
         }
     }
 }

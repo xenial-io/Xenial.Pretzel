@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -13,11 +13,6 @@ namespace Pretzel.Logic.Templating.Context
         public static bool IsMarkdownFile(this string extension)
         {
             return MarkdownFiles.Contains(extension.ToLower(CultureInfo.InvariantCulture));
-        }
-
-        public static bool IsRazorFile(this string extension)
-        {
-            return string.Equals(extension, ".cshtml", StringComparison.InvariantCultureIgnoreCase);
         }
 
         public static string ToRelativeFile(this string path)
