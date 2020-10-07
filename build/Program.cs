@@ -3,11 +3,14 @@
 using static SimpleExec.Command;
 using static Bullseye.Targets;
 
-Target("build", () =>
-{
-    Console.WriteLine("Hello World!");
-});
+var sln = "./src/Pretzel.sln";
+var tool = "./src/Pretzel/Pretzel.csproj";
 
-Target("default", DependsOn("build"));
+Target("restore", () => RunAsync("dotnet", $"restore {sln}"));
+
+Target("build", DependsOn("restore"), () => RunAsync("dotnet", $"build {sln}"));
+Target("pack", DependsOn("build"), () => RunAsync("dotnet", $"pack {tool}"));
+
+Target("default", DependsOn("pack"));
 
 await RunTargetsAndExitAsync(args);
