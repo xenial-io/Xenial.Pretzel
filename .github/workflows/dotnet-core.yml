@@ -21,7 +21,7 @@ jobs:
         with:
           dotnet-version: 5.0.100-rc.1.20452.10
       - name: Install dependencies
-        run: dotnet restore --project build/build.csproj
+        run: dotnet restore build/build.csproj
       - name: Build
         run: dotnet run --project build/build.csproj
       - uses: actions/upload-artifact@v2
@@ -47,6 +47,8 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 5.0.100-rc.1.20452.10
+      - name: Install dependencies
+        run: dotnet restore build/build.csproj
       - name: Publish to nuget.org
         run: dotnet run --project build/build.csproj deploy.nuget
         env:
