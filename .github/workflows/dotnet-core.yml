@@ -1,25 +1,54 @@
-name: .NET Core
+name: Xenial.Pretzel
 
 on:
+  schedule:
+    - cron: "30 0 * * *"
   push:
-    branches: [ master ]
+    branches: [master]
+    tags: [v*]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
-
     runs-on: windows-latest
-
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - name: Fetch all history for all tags and branches
+        run: |
+          git fetch --prune --unshallow
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.100-rc.1.20452.10
     - name: Install dependencies
-      run: dotnet restore src/Pretzel.sln
+      run: dotnet restore build/build.csproj
     - name: Build
-      run: dotnet build src/Pretzel.sln --configuration Release --no-restore
-    - name: Test
-      run: dotnet test src/Pretzel.sln --no-restore --verbosity normal
+      run: dotnet run build/build.csproj
+    - uses: actions/upload-artifact@v2
+      if: runner.os == 'Windows' && startsWith(github.ref, 'refs/tags/v')
+      with:
+        name: nuget
+        path: artifacts/nuget/
+
+  deploy-packages:
+    runs-on: windows-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Fetch all history for all tags and branches
+        run: |
+          git fetch --prune --unshallow
+      - uses: actions/download-artifact@v2
+        with:
+          name: nuget
+          path: artifacts/nuget/
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.100-rc.1.20452.10
+      - name: Publish to nuget.org
+        run: dotnet run --project build/build.csproj deploy.nuget
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.NUGET_API_KEY}}
