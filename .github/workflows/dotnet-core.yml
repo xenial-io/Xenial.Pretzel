@@ -21,9 +21,9 @@ jobs:
         with:
           dotnet-version: 5.0.100-rc.1.20452.10
       - name: Install dependencies
-        run: dotnet restore build/build.csproj
+        run: dotnet restore --project build/build.csproj
       - name: Build
-        run: dotnet run build/build.csproj
+        run: dotnet run --project build/build.csproj
       - uses: actions/upload-artifact@v2
         if: runner.os == 'Windows' && startsWith(github.ref, 'refs/tags/v')
         with:
