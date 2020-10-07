@@ -16,7 +16,7 @@ post-build*
 _ReSharper.*
 deploy-to-ec2*
 TestResults/
-build/
+artifacts/
 tests/
 *.ncrunchproject
 *.ncrunchsolution
