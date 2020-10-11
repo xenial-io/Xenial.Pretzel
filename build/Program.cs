@@ -11,7 +11,7 @@ var configuration = "--configuration Release";
 Target("restore", () => RunAsync("dotnet", $"restore {sln}"));
 
 Target("build", DependsOn("restore"), () => RunAsync("dotnet", $"build {sln} {configuration}"));
-Target("pack", DependsOn("build"), () => RunAsync("dotnet", $"pack {tool} {configuration}"));
+Target("pack", DependsOn("build"), () => RunAsync("dotnet", $"pack {tool} {configuration} /p:GlobalTool=\"True\""));
 
 Target("deploy.nuget", async () =>
 {
