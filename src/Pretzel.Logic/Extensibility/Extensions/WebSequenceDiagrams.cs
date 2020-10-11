@@ -1,4 +1,4 @@
-using System.Composition;
+﻿using System.Composition;
 using System.Text.RegularExpressions;
 
 namespace Pretzel.Logic.Extensibility.Extensions
@@ -9,7 +9,7 @@ namespace Pretzel.Logic.Extensibility.Extensions
         static readonly Regex SequenceDiagramRegex = new Regex(@"(?s:<pre><code>@@sequence(?<style>.*?)\r?\n(?<sequenceContent>.*?)</code></pre>)");
         const string Style_Template = " wsd_style=\"{0}\"";
         const string Div_Template = "<div class=\"wsd\"{1}><pre>{0}</pre></div>";
-        const string JS_Script = "\r\n<script type=\"text/javascript\" src=\"http://www.websequencediagrams.com/service.js\"></script>";
+        const string JS_Script = "\r\n<script type=\"text/javascript\" src=\"https://www.websequencediagrams.com/service.js\"></script>";
 
         public string Transform(string content)
         {
