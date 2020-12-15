@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net5</TargetFrameworks>
     <Description>Logic library for Pretzel (https://github.com/code52/pretzel), useful to make plugins.</Description>
@@ -29,6 +29,7 @@
     </PackageReference>
     <PackageReference Include="System.CommandLine.Experimental" Version="0.3.0-alpha.19405.1" />
     <PackageReference Include="System.IO.Abstractions" Version="12.2.1" />
+    <PackageReference Include="System.IO.Pipelines" Version="4.5.4" />
     <PackageReference Include="YamlDotNet" Version="8.1.2" />
     <PackageReference Include="System.Composition" Version="1.4.1" />
   </ItemGroup>
