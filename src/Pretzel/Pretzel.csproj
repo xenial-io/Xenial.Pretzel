@@ -8,7 +8,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
     <ApplicationIcon>pretzel.ico</ApplicationIcon>
-    <TargetFrameworks>netcoreapp3.1;net5</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net5;net6.0</TargetFrameworks>
     <PackageId>Xenial.Pretzel</PackageId>
   </PropertyGroup>
 
