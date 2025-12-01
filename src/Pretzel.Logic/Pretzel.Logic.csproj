@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net5;net6.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
     <Description>Logic library for Pretzel (https://github.com/code52/pretzel), useful to make plugins.</Description>
 	<Company>Code52, Xenial</Company>
 	<Authors>Code52, Xenial, Manuel Grundner</Authors>
@@ -19,19 +19,18 @@
     <PackageReference Include="dotless.Core" Version="1.6.7" />
     <PackageReference Include="Fluid.Core" Version="1.0.0-beta-9693" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.28" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
     <PackageReference Include="NUglify" Version="1.9.6" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="8.13.1.21947">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="System.CommandLine.Experimental" Version="0.3.0-alpha.19405.1" />
-    <PackageReference Include="System.IO.Abstractions" Version="12.2.1" />
-    <PackageReference Include="System.IO.Pipelines" Version="5.0.1" PrivateAssets="None" />
-    <PackageReference Include="YamlDotNet" Version="8.1.2" />
-    <PackageReference Include="System.Composition" Version="5.0.0" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0" />
+    <PackageReference Include="YamlDotNet" Version="16.3.0" />
+    <PackageReference Include="System.Composition" Version="10.0.0" />
+    <PackageReference Include="System.IO.Abstractions" Version="22.1.0" />
   </ItemGroup>
   
   <ItemGroup>

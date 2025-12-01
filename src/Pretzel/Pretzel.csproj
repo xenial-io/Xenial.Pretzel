@@ -8,14 +8,14 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
     <ApplicationIcon>pretzel.ico</ApplicationIcon>
-    <TargetFrameworks>netcoreapp3.1;net5;net6.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
     <PackageId>Xenial.Pretzel</PackageId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(GlobalTool)' == true">
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>pretzel</ToolCommandName>
-    <TargetFramework>net5</TargetFramework>
+    <TargetFramework>net10</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
