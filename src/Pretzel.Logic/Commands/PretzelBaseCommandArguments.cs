@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.IO.Abstractions;
@@ -20,17 +20,18 @@ namespace Pretzel.Logic.Commands
 
         protected override IEnumerable<Option> CreateOptions() => new[]
         {
-            new Option(new []{ "-t", "--template" }, "The templating engine to use")
+            new Option<string>("-t", ["--template"])
             {
-                Argument = new Argument<string>()
+                Description = "The templating engine to use"
             },
-            new Option(new [] { "-d", "--destination" }, "The path to the destination site (default _site)")
+            new Option<string>("-d", ["--destination"])
             {
-                Argument = new Argument<string>(() => "_site")
+                Description = "The path to the destination site (default _site)",
+                DefaultValueFactory = _ => "_site"
             },
-            new Option("--drafts", "Add the posts in the drafts folder")
+            new Option<string>("--drafts")
             {
-                Argument = new Argument<bool>()
+                Description = "Add the posts in the drafts folder"
             },
         };
 

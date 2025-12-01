@@ -1,4 +1,4 @@
-using Pretzel.Logic.Extensions;
+﻿using Pretzel.Logic.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -358,7 +358,7 @@ namespace Pretzel.Logic.Templating.Context
                     return string.Empty;
                 }
 
-                var fileInfo = fileSystem.FileInfo.FromFileName(file);
+                var fileInfo = fileSystem.FileInfo.New(file);
                 var tempFile = Path.Combine(Path.GetTempPath(), fileInfo.Name);
                 try
                 {
@@ -385,7 +385,7 @@ namespace Pretzel.Logic.Templating.Context
             }
             catch (IOException)
             {
-                var fileInfo = fileSystem.FileInfo.FromFileName(file);
+                var fileInfo = fileSystem.FileInfo.New(file);
                 var tempFile = Path.Combine(Path.GetTempPath(), fileInfo.Name);
                 try
                 {

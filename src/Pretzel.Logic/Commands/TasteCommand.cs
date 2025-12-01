@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.Composition;
@@ -25,17 +25,18 @@ namespace Pretzel.Logic.Commands
         [ImportingConstructor]
         public TasteCommandArguments(IFileSystem fileSystem) : base(fileSystem) { }
 
-        protected override IEnumerable<Option> CreateOptions() => base.CreateOptions().Concat(new[]
-        {
-            new Option(new[] { "--port", "-p" }, "The port to test the site locally")
-            {
-                Argument = new Argument<int>(() => 8080)
-            },
-            new Option("--nobrowser", "Do not launch a browser (false by default)")
-            {
-                Argument = new Argument<bool>()
-            },
-        });
+        protected override IEnumerable<Option> CreateOptions() => base.CreateOptions()
+            .Concat([
+                new Option<int>("-p", ["--port"])
+                {
+                    Description = "The port to test the site locally",
+                    DefaultValueFactory = _ => 8080
+                },
+                new Option<bool>("--nobrowser")
+                {
+                    Description = "Do not launch a browser (false by default)"
+                }
+            ]);
 
         public int Port { get; set; }
         public bool NoBrowser { get; set; }

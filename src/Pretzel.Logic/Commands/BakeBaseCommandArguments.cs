@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.CommandLine;
@@ -12,9 +12,9 @@ namespace Pretzel.Logic.Commands
 
         protected override IEnumerable<Option> CreateOptions() => base.CreateOptions().Concat(new[]
         {
-            new Option(new [] { "-c", "--cleantarget" }, "Delete the target directory (_site by default)")
+            new Option<bool>("-c", ["--cleantarget"])
             {
-                Argument = new Argument<bool>()
+                Description = "Delete the target directory (_site by default)"
             },
         });
 

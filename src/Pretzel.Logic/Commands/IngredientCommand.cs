@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.Composition;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Pretzel.Logic.Extensions;
 using Pretzel.Logic.Recipes;
 
@@ -20,9 +21,10 @@ namespace Pretzel.Logic.Commands
 
         protected override IEnumerable<Option> CreateOptions() => base.CreateOptions().Concat(new[]
         {
-            new Option(new [] { "--newposttitle", "-n" }, "The title of the new post (\"New post\" by default")
+            new Option<string>("-n", ["--newposttitle"])
             {
-                Argument = new Argument<string>(() => "New post")
+                HelpName = "New post",
+                Description =  "The title of the new post (\"New post\" by default"
             }
         });
 

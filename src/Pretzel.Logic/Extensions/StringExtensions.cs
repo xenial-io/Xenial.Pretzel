@@ -551,13 +551,13 @@ namespace Pretzel.Logic.Extensions
 
             if (tokens.Length < 3) 
             {
-                return  fs.FileInfo.FromFileName(file).LastWriteTime;
+                return  fs.FileInfo.New(file).LastWriteTime;
             }
 
             var timestampText = string.Join("-", tokens.Take(3)).Trim(fs.Path.DirectorySeparatorChar);
 
             DateTime timestamp;
-            return DateTime.TryParse(timestampText, out timestamp) ? timestamp : fs.FileInfo.FromFileName(file).LastWriteTime;
+            return DateTime.TryParse(timestampText, out timestamp) ? timestamp : fs.FileInfo.New(file).LastWriteTime;
         }
 
         public static string ToUnderscoreCase(this string str)

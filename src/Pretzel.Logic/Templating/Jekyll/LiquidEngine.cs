@@ -1,4 +1,4 @@
-using Fluid;
+﻿using Fluid;
 
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
@@ -148,7 +148,7 @@ namespace Pretzel.Logic.Templating.Jekyll
 
         public IDirectoryContents GetDirectoryContents(string subpath)
         {
-            var dir = FileSystem.DirectoryInfo.FromDirectoryName(Path.Combine(Root, subpath));
+            var dir = FileSystem.DirectoryInfo.New(Path.Combine(Root, subpath));
             return new DirectoryContents(dir);
         }
 
@@ -196,7 +196,7 @@ namespace Pretzel.Logic.Templating.Jekyll
 
         public IFileInfo GetFileInfo(string subpath)
         {
-            return new FileInfo(this.FileSystem.FileInfo.FromFileName(Path.Combine(Root, subpath)));
+            return new FileInfo(this.FileSystem.FileInfo.New(Path.Combine(Root, subpath)));
         }
 
         public IChangeToken Watch(string filter)

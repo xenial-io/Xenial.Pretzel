@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.CommandLine;
 using System.Composition;
@@ -20,13 +20,13 @@ namespace Pretzel.Logic.Commands
 
         protected override IEnumerable<Option> CreateOptions() => base.CreateOptions().Concat(new[]
         {
-            new Option(new [] {"--importtype", "-i"}, "The import type")
+            new Option<string>("-i", ["--importtype"])
             {
-                Argument = new Argument<string>()
+                Description = "The import type"
             },
-            new Option(new [] {"--importfile", "-f"}, "Path to import file")
+            new Option<string>("-f", ["--importfile"])
             {
-                Argument = new Argument<string>()
+                Description = "Path to import file"
             }
         });
 
@@ -44,7 +44,7 @@ namespace Pretzel.Logic.Commands
         )]
     public sealed class ImportCommand : Command<ImportCommandArguments>
     {
-        readonly static List<string> Importers = new List<string>(new[] { "wordpress", "blogger" });
+        private readonly static List<string> Importers = new List<string>(new[] { "wordpress", "blogger" });
 
         [Import]
         public IFileSystem FileSystem { get; set; }

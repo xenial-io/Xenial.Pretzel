@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.CommandLine;
 using System.Composition;
 using System.IO.Abstractions;
@@ -16,9 +16,9 @@ namespace Pretzel.Logic.Extensibility.Extensions
     {
         public IList<Option> Options { get; } = new[]
         {
-            new Option(new [] { "--virtualdirectory", "-vDir" }, "Rewrite url's to work inside the specified virtual directory")
+            new Option<string>("-vDir", ["--virtualdirectory"])
             {
-                Argument = new Argument<string>()
+                Description = "Rewrite url's to work inside the specified virtual directory"
             }
         };
 
