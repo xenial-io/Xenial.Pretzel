@@ -9,6 +9,7 @@ Feel free to fork it and proposed an adapted version, or to use [Wyam](https://w
 [![Ptrezel tag on Stack Overflow](https://img.shields.io/badge/stackoverflow-pretzel-orange.svg)](http://stackoverflow.com/questions/tagged/pretzel)
 [![Chocolatey](https://img.shields.io/chocolatey/v/pretzel.svg?style=flat)](https://chocolatey.org/packages/pretzel/)
 [![Nuget](https://img.shields.io/nuget/v/Pretzel.Logic.svg)](https://www.nuget.org/packages/Pretzel.Logic/)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fxenial-io%2FXenial.Pretzel.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fxenial-io%2FXenial.Pretzel?ref=badge_shield)
 
 
 ## Pretzel
@@ -67,3 +68,7 @@ All contributions are welcome, please read our [contributing guide](CONTRIBUTING
 
 ### Attribution
  “[Pretzel](https://thenounproject.com/noun/pretzel/#icon-No555)” symbol by Edward Boatman on [The Noun Project](https://thenounproject.com/), from The Noun Project collection.
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fxenial-io%2FXenial.Pretzel.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fxenial-io%2FXenial.Pretzel?ref=badge_large)
